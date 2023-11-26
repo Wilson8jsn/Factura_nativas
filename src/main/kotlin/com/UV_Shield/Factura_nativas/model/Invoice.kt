@@ -1,4 +1,4 @@
-package com.Factura_kotlin.model
+package com.UV_Shield.Factura_nativas.model
 
 import jakarta.persistence.*
 import java.util.*

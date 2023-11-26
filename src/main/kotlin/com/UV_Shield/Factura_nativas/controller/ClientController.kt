@@ -1,9 +1,10 @@
-package com.Factura_kotlin.controller
+package com.UV_Shield.Factura_nativas.controller
 
 
 
-import com.Factura_kotlin.model.Client
-import com.Factura_kotlin.service.ClientService
+
+import com.UV_Shield.Factura_nativas.model.Client
+import com.UV_Shield.Factura_nativas.service.ClientService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

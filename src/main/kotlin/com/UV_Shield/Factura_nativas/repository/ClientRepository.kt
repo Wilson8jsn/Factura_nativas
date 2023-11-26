@@ -1,7 +1,8 @@
-package com.Factura_kotlin.repository
+package com.UV_Shield.Factura_nativas.repository
 
 
-import com.Factura_kotlin.model.Client
+
+import com.UV_Shield.Factura_nativas.model.Client
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

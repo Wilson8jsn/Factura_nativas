@@ -1,9 +1,9 @@
-package com.Factura_kotlin.service
+package com.UV_Shield.Factura_nativas.service
 
 
 
-import com.Factura_kotlin.model.Client
-import com.Factura_kotlin.repository.ClientRepository
+import com.UV_Shield.Factura_nativas.model.Client
+import com.UV_Shield.Factura_nativas.repository.ClientRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
