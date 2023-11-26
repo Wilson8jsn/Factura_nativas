@@ -22,7 +22,7 @@ class InvoiceService {
 
     fun save(invoice: Invoice):Invoice{
         try {
-            clientRepository.findById(invoice.clientId)
+            clientRepository.findById(invoice.client_Id)
                 ?: throw Exception("Id del cliente no encontrados")
             return invoiceRepository.save(invoice)
         }catch (ex : Exception){

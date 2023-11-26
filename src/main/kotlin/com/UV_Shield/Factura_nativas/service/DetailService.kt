@@ -27,15 +27,15 @@ class DetailService {
     fun save(detail: Detail):Detail{
         try {
             // Verification logic for invoice and product existence
-            detail.invoiceId?.let { invoiceId ->
-                if (!invoiceRepository.existsById(invoiceId)) {
-                    throw ResponseStatusException(HttpStatus.NOT_FOUND, "Invoice not found for id: $invoiceId")
+            detail.invoice_Id?.let { invoice_Id ->
+                if (!invoiceRepository.existsById(invoice_Id)) {
+                    throw ResponseStatusException(HttpStatus.NOT_FOUND, "Invoice not found for id: $invoice_Id")
                 }
             }
 
-            detail.productId?.let { productId ->
-                if (!productRepository.existsById(productId)) {
-                    throw ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found for id: $productId")
+            detail.product_Id?.let { product_Id ->
+                if (!productRepository.existsById(product_Id)) {
+                    throw ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found for id: $product_Id")
                 }
             }
 

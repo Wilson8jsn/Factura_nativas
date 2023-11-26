@@ -10,10 +10,10 @@ class Detail {
     @Id
     @Column(updatable = false)
     var id: Long? = null
-    var quantity: String? = null
+    var quantity: Int? = null
     var price: Int? = null
     @Column(name="invoice_id")
-    var invoiceId: Long? = null
+    var invoice_Id: Long? = null
     @Column(name="product_id")
-    var productId: Long? = null
+    var product_Id: Long? = null
 }

@@ -19,15 +19,16 @@ class ProductService {
     }
 
     fun save(product: Product): Product {
-        try{
-            product.stok?.takeIf { it.trim().isNotEmpty() }
-                ?: throw Exception("Stock no debe ser menor a cero")
+        try {
+            product.stok?.takeIf { it >= 0 }
+                ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock no debe ser menor a cero")
+
             return productRepository.save(product)
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al procesar la solicitud", ex)
         }
     }
+
 
     fun update(product: Product): Product{
         try {
