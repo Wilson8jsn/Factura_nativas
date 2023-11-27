@@ -9,66 +9,80 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 
+
 @Service
 class ClientService {
     @Autowired
     lateinit var clientRepository: ClientRepository
 
-    fun list ():List<Client>{
+    fun list(): List<Client> {
         return clientRepository.findAll()
     }
 
     fun save(client: Client): Client {
-        try{
-            client.fullname?.takeIf { it.trim().isNotEmpty() }
+        try {
+            client.full_name?.takeIf { it.trim().isNotEmpty() }
                 ?: throw Exception("Nombres no debe ser vacio")
             return clientRepository.save(client)
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
 
-    fun update(client: Client): Client{
+    fun update(client: Client): Client {
         try {
             clientRepository.findById(client.id)
                 ?: throw Exception("ID no existe")
 
             return clientRepository.save(client)
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
 
-    fun updateName(client: Client): Client{
-        try{
+    fun updateName(client: Client): Client {
+        try {
             val response = clientRepository.findById(client.id)
-                ?: throw Exception("ID no existe")
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "ID no existe")
+
             response.apply {
-                address=client.address
+                full_name = client.full_name
             }
+
             return clientRepository.save(response)
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
 
-    fun delete (id: Long?):Boolean?{
-        try{
+
+    fun delete(id: Long?): Boolean? {
+        try {
             val response = clientRepository.findById(id)
 
                 ?: throw Exception("ID no existe")
             clientRepository.deleteById(id!!)
             return true
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
-    fun listById (id:Long?):Client?{
+
+    fun listById(id: Long?): Client? {
         return clientRepository.findById(id)
     }
+
+
+    fun getClientsWithAddress(address: String?): List<Client> {
+        val clients = if (address != null) {
+            clientRepository.findByAddress(address)
+        } else {
+            emptyList()
+        }
+
+        return clients
+    }
+
+
 
 }

@@ -5,10 +5,14 @@ package com.UV_Shield.Factura_nativas.controller
 
 import com.UV_Shield.Factura_nativas.model.Client
 import com.UV_Shield.Factura_nativas.service.ClientService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+
+
 
 @RestController
 @RequestMapping("/client")   //endpoint
@@ -47,4 +51,16 @@ class ClientController {
         return ResponseEntity(clientService.listById (id), HttpStatus.OK)
 
     }
+    private val log: Logger = LoggerFactory.getLogger(Client ::class.java)
+
+    @GetMapping("/client/address/{address}")
+    fun getClientsWithAddress(@PathVariable address: String?): ResponseEntity<List<Client>> {
+        log.info("Received request for address: {}", address)
+        val clients = clientService.getClientsWithAddress(address)
+        log.info("Found {} clients", clients.size)
+        return ResponseEntity(clients, HttpStatus.OK)
+    }
+
+
+
 }

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS client(
     id SERIAL PRIMARY KEY,
     nui VARCHAR(10),
-    fullname VARCHAR(50),
+    full_name VARCHAR(50),
     address VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS invoice(

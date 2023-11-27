@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ClientRepository: JpaRepository<Client, Long?> {
     fun findById (id: Long?): Client?
-
+    fun findByAddress(address: String?): List<Client>
 }
