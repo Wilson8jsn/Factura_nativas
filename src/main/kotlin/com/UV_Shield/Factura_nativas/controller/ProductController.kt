@@ -4,8 +4,10 @@ package com.UV_Shield.Factura_nativas.controller
 import com.UV_Shield.Factura_nativas.model.Product
 import com.UV_Shield.Factura_nativas.service.ProductService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -45,4 +47,10 @@ class ProductController {
         return ResponseEntity(productService.listById (id), HttpStatus.OK)
 
     }
+    @GetMapping("/product")
+    fun listProduct(product: Product, pageable: Pageable): ResponseEntity<*> {
+        val response = productService.list(pageable, product)
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
 }

@@ -8,8 +8,11 @@ import com.UV_Shield.Factura_nativas.service.ClientService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 
@@ -60,6 +63,15 @@ class ClientController {
         log.info("Found {} clients", clients.size)
         return ResponseEntity(clients, HttpStatus.OK)
     }
+
+
+    @GetMapping
+    fun list (client: Client, pageable: Pageable):ResponseEntity<*>{
+        val response= clientService.list(pageable, client)
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
+
 
 
 

@@ -5,8 +5,13 @@ package com.UV_Shield.Factura_nativas.service
 import com.UV_Shield.Factura_nativas.model.Client
 import com.UV_Shield.Factura_nativas.repository.ClientRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Example
+import org.springframework.data.domain.ExampleMatcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.ui.Model
 import org.springframework.web.server.ResponseStatusException
 
 
@@ -83,6 +88,14 @@ class ClientService {
         return clients
     }
 
+
+
+    fun list (pageable: Pageable,client: Client):Page<Client>{
+        val matcher = ExampleMatcher.matching()
+            .withIgnoreNullValues()
+            .withMatcher(("full_name"), ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+        return clientRepository.findAll(Example.of(client, matcher), pageable)
+    }
 
 
 }
