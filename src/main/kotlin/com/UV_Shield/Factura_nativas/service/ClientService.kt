@@ -91,12 +91,12 @@ class ClientService {
 
 
 
-    fun list (pageable: Pageable,client: Client):Page<Client>{
+   /* fun list (pageable: Pageable,client: Client):Page<Client>{
         val matcher = ExampleMatcher.matching()
             .withIgnoreNullValues()
             .withMatcher(("full_name"), ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
         return clientRepository.findAll(Example.of(client, matcher), pageable)
     }
-
+*/
 
 }
