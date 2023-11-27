@@ -46,5 +46,5 @@ class InvoiceController {
         return ResponseEntity(invoiceService.listById(id), HttpStatus.OK)
 
     }
-
+    
 }

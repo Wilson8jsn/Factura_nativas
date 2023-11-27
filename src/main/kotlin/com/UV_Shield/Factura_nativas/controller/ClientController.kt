@@ -25,36 +25,37 @@ class ClientController {
     lateinit var clientService: ClientService
 
     @GetMapping
-    fun list ():List <Client>{
+    fun list(): List<Client> {
         return clientService.list()
     }
 
     @PostMapping
-    fun save (@RequestBody client: Client): ResponseEntity<Client> {
-        return ResponseEntity(clientService.save(client), HttpStatus.OK )
+    fun save(@RequestBody client: Client): ResponseEntity<Client> {
+        return ResponseEntity(clientService.save(client), HttpStatus.OK)
     }
 
     @PutMapping
-    fun update (@RequestBody client: Client): ResponseEntity<Client> {
+    fun update(@RequestBody client: Client): ResponseEntity<Client> {
         return ResponseEntity(clientService.update(client), HttpStatus.OK)
     }
 
     @PatchMapping
-    fun updateName (@RequestBody client: Client): ResponseEntity<Client> {
+    fun updateName(@RequestBody client: Client): ResponseEntity<Client> {
         return ResponseEntity(clientService.updateName(client), HttpStatus.OK)
     }
 
     @DeleteMapping("/delete/{id}")
-    fun delete (@PathVariable("id") id: Long):Boolean? {
+    fun delete(@PathVariable("id") id: Long): Boolean? {
         return clientService.delete(id)
     }
 
     @GetMapping("/{id}")
-    fun listById (@PathVariable("id") id: Long): ResponseEntity<*> {
-        return ResponseEntity(clientService.listById (id), HttpStatus.OK)
+    fun listById(@PathVariable("id") id: Long): ResponseEntity<*> {
+        return ResponseEntity(clientService.listById(id), HttpStatus.OK)
 
     }
-    private val log: Logger = LoggerFactory.getLogger(Client ::class.java)
+
+    private val log: Logger = LoggerFactory.getLogger(Client::class.java)
 
     @GetMapping("/client/address/{address}")
     fun getClientsWithAddress(@PathVariable address: String?): ResponseEntity<List<Client>> {
@@ -65,11 +66,16 @@ class ClientController {
     }
 
 
+
+
+
     @GetMapping
     fun list (client: Client, pageable: Pageable):ResponseEntity<*>{
-        val response= clientService.list(pageable, client)
+        val response= clientService.list(pageable,client)
         return ResponseEntity(response, HttpStatus.OK)
     }
+
+
 
 
 
