@@ -2,6 +2,8 @@ package com.UV_Shield.Factura_nativas.service
 
 
 
+import com.UV_Shield.Factura_nativas.dto.ProductDto
+import com.UV_Shield.Factura_nativas.mapper.ProductMapper
 import com.UV_Shield.Factura_nativas.model.Product
 import com.UV_Shield.Factura_nativas.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +21,7 @@ class ProductService {
     @Autowired
     lateinit var productRepository: ProductRepository
 
-    fun list ():List<Product>{
+    fun list(): List<Product> {
         return productRepository.findAll()
     }
 
@@ -35,53 +37,70 @@ class ProductService {
     }
 
 
-    fun update(product: Product): Product{
+    fun update(product: Product): Product {
         try {
             productRepository.findById(product.id)
                 ?: throw Exception("ID no existe")
 
             return productRepository.save(product)
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
 
-    fun updateName(product: Product): Product{
-        try{
+    fun updateName(product: Product): Product {
+        try {
             val response = productRepository.findById(product.id)
                 ?: throw Exception("ID no existe")
             response.apply {
-                description=product.description
+                description = product.description
             }
             return productRepository.save(response)
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
 
-    fun delete (id: Long?):Boolean?{
-        try{
+    fun delete(id: Long?): Boolean? {
+        try {
             val response = productRepository.findById(id)
 
                 ?: throw Exception("ID no existe")
             productRepository.deleteById(id!!)
             return true
-        }
-        catch (ex:Exception){
-            throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
-    fun listById (id:Long?):Product?{
+
+    fun listById(id: Long?): Product? {
         return productRepository.findById(id)
     }
 
-    fun list(pageable: Pageable,product: Product): Page<Product> {
+    fun list(pageable: Pageable, product: Product): Page<Product> {
         val matcher = ExampleMatcher.matching()
             .withIgnoreNullValues()
             .withMatcher("field", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
         return productRepository.findAll(Example.of(product, matcher), pageable)
     }
+
+    /* fun listDto() : List<ProductDto> {
+        val productList = productRepository.findAll()
+    val  productDto = ProductMapper.mapToDto(product)
+    } */
+
+
+    fun listDto(): List<ProductDto> {
+        val productList = productRepository.findAll()
+        val productDtoList = mutableListOf<ProductDto>()
+        productList.map { product ->
+            val productDto = ProductMapper.mapToDto(product)
+            productDtoList.add(productDto)
+
+        }
+        return productDtoList
+
+    }
+
 
 }

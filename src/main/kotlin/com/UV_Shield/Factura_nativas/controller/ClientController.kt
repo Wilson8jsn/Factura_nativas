@@ -69,6 +69,7 @@ class ClientController {
 
 
 
+
    /* @GetMapping
     fun list (client: Client, pageable: Pageable):ResponseEntity<*>{
         val response= clientService.list(pageable,client)

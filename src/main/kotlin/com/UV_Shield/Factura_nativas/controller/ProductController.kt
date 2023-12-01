@@ -1,6 +1,7 @@
 package com.UV_Shield.Factura_nativas.controller
 
 
+import com.UV_Shield.Factura_nativas.dto.ProductDto
 import com.UV_Shield.Factura_nativas.model.Product
 import com.UV_Shield.Factura_nativas.service.ProductService
 import org.springframework.beans.factory.annotation.Autowired
@@ -52,5 +53,11 @@ class ProductController {
         val response = productService.list(pageable, product)
         return ResponseEntity(response, HttpStatus.OK)
     }
+
+    @GetMapping("/List-dto")
+    fun listDto(): ResponseEntity<*>{
+        return ResponseEntity(productService.listDto(), HttpStatus.OK)
+    }
+
 
 }
