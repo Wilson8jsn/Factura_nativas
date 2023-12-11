@@ -24,28 +24,23 @@ class DetailService {
         return detailRepository.findAll()
     }
 
-    fun save(detail: Detail):Detail{
-        try {
-            // Verification logic for invoice and product existence
-            detail.invoice_Id?.let { invoice_Id ->
-                if (!invoiceRepository.existsById(invoice_Id)) {
-                    throw ResponseStatusException(HttpStatus.NOT_FOUND, "Invoice not found for id: $invoice_Id")
-                }
+    fun save(detail: Detail): Detail {
+        val savedDetail = detailRepository.save(detail)
+        updateProductStock(savedDetail)
+        return savedDetail
+    }
+    fun updateProductStock(detail: Detail) {
+        detail.product_Id?.let { productId ->
+            productRepository.findById(productId).ifPresent {
+                it.stok = (it.stok ?: 0) - (detail.quantity ?: 0)
+                productRepository.save(it)
             }
-
-            detail.product_Id?.let { product_Id ->
-                if (!productRepository.existsById(product_Id)) {
-                    throw ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found for id: $product_Id")
-                }
-            }
-
-            // Save the detail
-            return detailRepository.save(detail)
-        } catch (ex: Exception) {
-            // Handle exceptions by wrapping them in a ResponseStatusException
-            throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing the request", ex)
         }
     }
+
+
+
+
     fun update(detail: Detail): Detail {
         try {
             detailRepository.findById(detail.id)
@@ -86,5 +81,6 @@ class DetailService {
     fun listById (id:Long?): Detail?{
         return detailRepository.findById(id)
     }
+
 
 }
