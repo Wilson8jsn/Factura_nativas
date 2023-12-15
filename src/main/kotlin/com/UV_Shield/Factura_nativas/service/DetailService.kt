@@ -23,8 +23,8 @@ class DetailService {
     fun list ():List<Detail>{
         return detailRepository.findAll()
     }
-
-    fun save(detail: Detail): Detail {
+/*
+  fun save(detail: Detail): Detail {
         val savedDetail = detailRepository.save(detail)
         updateProductStock(savedDetail)
         return savedDetail
@@ -37,7 +37,17 @@ class DetailService {
             }
         }
     }
-
+*/
+    fun save(detail: Detail): Detail {
+    val response = detailRepository.save(detail)
+    val product = productRepository.findById(detail.product_Id)
+    product?.let { it ->
+        val currentStock = it.stok ?: 0
+        it.stok = currentStock - (detail.quantity ?: 0)
+        productRepository.save(it)
+    }
+    return response
+}
 
 
 
