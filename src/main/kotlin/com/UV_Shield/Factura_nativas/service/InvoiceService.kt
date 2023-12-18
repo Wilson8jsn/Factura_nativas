@@ -49,7 +49,7 @@ class InvoiceService {
             val response = invoiceRepository.findById(invoice.id)
                 ?: throw Exception("ID no existe")
             response.apply {
-                code=invoice.code //un atributo del modelo
+                 total=invoice.total //un atributo del modelo
             }
             return invoiceRepository.save(response)
         }

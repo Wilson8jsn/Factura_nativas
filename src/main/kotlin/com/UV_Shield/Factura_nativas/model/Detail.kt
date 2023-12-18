@@ -16,4 +16,5 @@ class Detail {
     var invoice_Id: Long? = null
     @Column(name="product_id")
     var product_Id: Long? = null
+
 }

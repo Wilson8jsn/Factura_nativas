@@ -10,9 +10,13 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface DetailRepository: JpaRepository<Detail, Long?> {
-    fun findById (id: Long?): Detail?
+    fun findById(id: Long?): Detail?
+    fun findByInvoiceId(invoiceId: Long): List<Detail>
     @Query(nativeQuery =true)
     fun sumTotal(@Param("invoice_Id") invoice_Id: Long?): Double?
 
 }
+
+
+
 
