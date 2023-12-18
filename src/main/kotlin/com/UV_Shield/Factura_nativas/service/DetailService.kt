@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.math.BigDecimal
 import kotlin.time.times
 import java.util.Optional
 
@@ -24,8 +25,7 @@ class DetailService {
     lateinit var detailRepository: DetailRepository
 
     fun list ():List<Detail>{
-        return detailRepository
-            .findAll()
+        return detailRepository.findAll()
     }
 /*
     fun save(detail: Detail): Detail {
@@ -37,38 +37,26 @@ class DetailService {
         productRepository.save(it)
     }
     return response
-} */
+}
+*/
+
 
     fun save(detail: Detail): Detail {
         val response = detailRepository.save(detail)
         val product = productRepository.findById(detail.product_Id)
-
-        product?.let {
+        product?.let { it ->
             val currentStock = it.stok ?: 0
             it.stok = currentStock - (detail.quantity ?: 0)
             productRepository.save(it)
         }
-
-        val invoiceId = detail.invoice_Id
-        if (invoiceId != null) {
-            val listDetail = detailRepository.findByInvoiceId(invoiceId)
-            val sum = listDetail.map { detailsaved ->
-                (detailsaved.price ?: 0) * (detailsaved.quantity ?: 0)
-            }.sum()
-
-            val invoiceOptional = invoiceRepository.findById(invoiceId)
-            if (invoiceOptional.isPresent) {
-                val invoiceToUpdate = invoiceOptional.get()
-                invoiceToUpdate.total = sum
-                invoiceRepository.save(invoiceToUpdate)
-            }
+        val totalCalculated = detailRepository.sumTotal(detail.invoice_Id)
+        val invoiceResponse = invoiceRepository.findById(detail.invoice_Id)
+        invoiceResponse.ifPresent {
+            it.total = totalCalculated ?: BigDecimal.ZERO
+            invoiceRepository.save(it)
         }
-
         return response
     }
-
-
-
 
 
 
