@@ -12,7 +12,7 @@ class Invoice {
     var id: Long? = null
     var code: String? = null
     @Column(name="create_at")
-    var create_at: Date? = null
+    var createAt: Date? = null
     var total: Int? = null
     val month: String? =null
     @Column(name="client_id")
