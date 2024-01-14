@@ -6,6 +6,7 @@ import com.UV_Shield.Factura_nativas.model.Detail
 import com.UV_Shield.Factura_nativas.repository.DetailRepository
 import com.UV_Shield.Factura_nativas.repository.InvoiceRepository
 import com.UV_Shield.Factura_nativas.repository.ProductRepository
+import com.UV_Shield.Factura_nativas.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -23,11 +24,14 @@ class DetailService {
     lateinit var productRepository: ProductRepository
     @Autowired
     lateinit var detailRepository: DetailRepository
+    @Autowired
+    lateinit var UserRepository: UserRepository
+
 
     fun list ():List<Detail>{
         return detailRepository.findAll()
     }
-/*
+
     fun save(detail: Detail): Detail {
     val response = detailRepository.save(detail)
     val product = productRepository.findById(detail.product_Id)
@@ -38,9 +42,9 @@ class DetailService {
     }
     return response
 }
-*/
 
 
+/*
     fun save(detail: Detail): Detail {
         val response = detailRepository.save(detail)
         val product = productRepository.findById(detail.product_Id)
@@ -58,7 +62,7 @@ class DetailService {
         return response
     }
 
-
+*/
 
     fun update(detail: Detail): Detail {
         try {
