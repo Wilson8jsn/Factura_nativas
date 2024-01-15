@@ -24,25 +24,11 @@ class AuthController {
     private val jwtUtil: JwtUtil? = null
 
     @PostMapping("/login")
-    fun login(@RequestBody loginDto: LoginDto): ResponseEntity<*> {
-        try {
-            val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
-            val authentication: Authentication = authenticationManager!!.authenticate(login)
-            val response = TokenDto().apply { jwt = jwtUtil!!.create(loginDto.username) }
-            return ResponseEntity(response, HttpStatus.OK)
-        } catch (ex: BadCredentialsException) {
-            // Credenciales incorrectas
-            return ResponseEntity("Invalid username or password", HttpStatus.UNAUTHORIZED)
-        } catch (ex: LockedException) {
-            // Cuenta bloqueada
-            return ResponseEntity("Account locked", HttpStatus.UNAUTHORIZED)
-        } catch (ex: DisabledException) {
-            // Cuenta deshabilitada
-            return ResponseEntity("Account disabled", HttpStatus.UNAUTHORIZED)
-        } catch (ex: Exception) {
-            // Otro error durante la autenticación
-            return ResponseEntity("Authentication error", HttpStatus.INTERNAL_SERVER_ERROR)
-        }
+    fun login(@RequestBody loginDto: LoginDto): ResponseEntity<*>? {
+        val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
+        val authentication: Authentication = authenticationManager!!.authenticate(login)
+        val response = TokenDto().apply { jwt= jwtUtil!!.create(loginDto.username)}
+        return ResponseEntity(response, HttpStatus.OK)
     }
 
 }
