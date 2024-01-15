@@ -1,8 +1,10 @@
 package com.UV_Shield.Factura_nativas.controller
 
-import com.UV_Shield.Factura_nativas.config.JwtUtil
+
+
 import com.UV_Shield.Factura_nativas.dto.LoginDto
 import com.UV_Shield.Factura_nativas.dto.TokenDto
+import com.UV_Shield.Factura_nativas.utils.JwtUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -24,14 +26,9 @@ class AuthController {
 
     @PostMapping("/login")
     fun login(@RequestBody loginDto: LoginDto): ResponseEntity<*>? {
-        try {
-            val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
-            val authentication: Authentication = authenticationManager!!.authenticate(login)
-            val response = TokenDto().apply { jwt = jwtUtil!!.create(loginDto.username) }
-            return ResponseEntity(response, HttpStatus.OK)
-        } catch (e: Exception) {
-            return ResponseEntity("Invalid credentials", HttpStatus.UNAUTHORIZED)
-        }
+        val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
+        val authentication: Authentication = authenticationManager!!.authenticate(login)
+        val response = TokenDto().apply { jwt= jwtUtil!!.create(loginDto.username)}
+        return ResponseEntity(response, HttpStatus.OK)
     }
-
 }

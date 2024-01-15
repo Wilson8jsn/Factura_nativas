@@ -1,10 +1,17 @@
 package com.UV_Shield.Factura_nativas.model
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
 
 @Entity
 @Table(name = "users")
-class UserEntity {
+class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(updatable = false)
@@ -22,7 +29,7 @@ class UserEntity {
     var locked: Boolean? = null
     var disabled: Boolean? = null
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    var roles: List<RoleEntity>? = null
+    var roles: List<Role>? = null
 
 
 }

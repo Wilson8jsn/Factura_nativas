@@ -1,5 +1,6 @@
 package com.UV_Shield.Factura_nativas.config
 
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,7 +31,8 @@ class SecurityConfig {
             .authorizeHttpRequests{authRequest->
                 authRequest
                     .requestMatchers("/auth/**").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest()
+                    .authenticated()
             }
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
 

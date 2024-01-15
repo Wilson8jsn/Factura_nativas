@@ -1,4 +1,5 @@
-package com.UV_Shield.Factura_nativas.config
+package com.UV_Shield.Factura_nativas.utils
+
 
 import com.UV_Shield.Factura_nativas.repository.UserRepository
 import com.auth0.jwt.JWT
@@ -6,7 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTVerificationException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @Component
@@ -18,7 +19,8 @@ class JwtUtil {
 
     fun create(username: String?): String? {
         val userEntity = userRepository.findByUsername(username!!)
-        val roles: Array<String?> = userEntity?.roles?.map { role -> role.role }!!.toTypedArray()
+        val roles: Array<String?> = userEntity?.roles?.map {
+                role -> role.role }!!.toTypedArray()
         return JWT.create()
             .withArrayClaim("roles", roles)
             .withSubject(username)
@@ -27,7 +29,6 @@ class JwtUtil {
             .withExpiresAt(Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(15)))
             .sign(ALGORITHM)
     }
-
     fun isValid(jwt: String?): Boolean {
         return try {
             JWT.require(ALGORITHM)
@@ -38,7 +39,6 @@ class JwtUtil {
             false
         }
     }
-
     fun getUsername(jwt: String?): String? {
         return JWT.require(ALGORITHM)
             .build()
