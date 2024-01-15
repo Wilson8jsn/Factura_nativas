@@ -24,9 +24,14 @@ class AuthController {
 
     @PostMapping("/login")
     fun login(@RequestBody loginDto: LoginDto): ResponseEntity<*>? {
-        val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
-        val authentication: Authentication = authenticationManager!!.authenticate(login)
-        val response = TokenDto().apply { jwt= jwtUtil!!.create(loginDto.username)}
-        return ResponseEntity(response, HttpStatus.OK)
+        try {
+            val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
+            val authentication: Authentication = authenticationManager!!.authenticate(login)
+            val response = TokenDto().apply { jwt = jwtUtil!!.create(loginDto.username) }
+            return ResponseEntity(response, HttpStatus.OK)
+        } catch (e: Exception) {
+            return ResponseEntity("Invalid credentials", HttpStatus.UNAUTHORIZED)
+        }
     }
+
 }

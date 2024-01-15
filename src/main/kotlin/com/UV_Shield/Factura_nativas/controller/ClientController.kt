@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/client")   //endpoint
+@RequestMapping("/client")
 @CrossOrigin(methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.DELETE])
 class ClientController {
     @Autowired
@@ -65,16 +65,11 @@ class ClientController {
         return ResponseEntity(clients, HttpStatus.OK)
     }
 
-
-
-
-
-
-   /* @GetMapping
-    fun list (client: Client, pageable: Pageable):ResponseEntity<*>{
-        val response= clientService.list(pageable,client)
+    /*
+    @GetMapping
+    fun list(pageable: Pageable): ResponseEntity<Page<Client>> {
+        val response = clientService.list(pageable)
         return ResponseEntity(response, HttpStatus.OK)
     }
     */
-
 }
