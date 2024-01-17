@@ -18,8 +18,7 @@ CREATE TABLE IF NOT EXISTS product(
     description VARCHAR(255),
     brand VARCHAR(255),
     price INT,
-    stok INTEGER,
-    Sales INT
+    stok INTEGER
 );
 CREATE TABLE IF NOT EXISTS detail(
     id SERIAL PRIMARY KEY,

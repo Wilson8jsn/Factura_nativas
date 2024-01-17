@@ -20,8 +20,8 @@ spring:
     schemas: public
 
   datasource:
-    url: jdbc:postgresql://heffalump.db.elephantsql.com:5432/rbtntzmh?socketTimeout=3
-    username: rbtntzmh
-    password: uPExftLqnrSFczXGcvm7qDCT5Thjg3D4
+    url: jdbc:postgresql://heffalump.db.elephantsql.com:5432/tehptrvr?socketTimeout=3
+    username: tehptrvr
+    password: uMk0a0nXPBI0GXG4a2mfAhDfZxm16_t5
     driverClassName: org.postgresql.Driver
 
