@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/auth")
 class AuthController {
+
     @Autowired
     private val authenticationManager: AuthenticationManager? = null
     @Autowired
@@ -25,10 +26,33 @@ class AuthController {
 
     @PostMapping("/login")
     fun login(@RequestBody loginDto: LoginDto): ResponseEntity<*>? {
-        val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
-        val authentication: Authentication = authenticationManager!!.authenticate(login)
-        val response = TokenDto().apply { jwt= jwtUtil!!.create(loginDto.username)}
-        return ResponseEntity(response, HttpStatus.OK)
-    }
+        try {
+            val login = UsernamePasswordAuthenticationToken(loginDto.username, loginDto.password)
+            val authentication: Authentication = authenticationManager!!.authenticate(login)
 
+
+            val response = TokenDto().apply { jwt = jwtUtil!!.create(loginDto.username) }
+
+            return ResponseEntity(response, HttpStatus.OK)
+        } catch (e: BadCredentialsException) {
+
+            return ResponseEntity("Credenciales incorrectas", HttpStatus.UNAUTHORIZED)
+        } catch (e: LockedException) {
+
+            return ResponseEntity("La cuenta está bloqueada", HttpStatus.UNAUTHORIZED)
+        } catch (e: DisabledException) {
+
+            return ResponseEntity("La cuenta está deshabilitada", HttpStatus.UNAUTHORIZED)
+        } catch (e: AccountExpiredException) {
+
+            return ResponseEntity("La cuenta ha expirado", HttpStatus.UNAUTHORIZED)
+        } catch (e: CredentialsExpiredException) {
+            return ResponseEntity("Las credenciales han expirado", HttpStatus.UNAUTHORIZED)
+        } catch (e: Exception) {
+
+            e.printStackTrace()
+            return ResponseEntity("Error de autenticación: ${e.message}", HttpStatus.UNAUTHORIZED)
+
+        }
+    }
 }

@@ -4,6 +4,7 @@ package com.UV_Shield.Factura_nativas.config
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
@@ -31,9 +32,8 @@ class SecurityConfig {
             .authorizeHttpRequests{authRequest->
                 authRequest
                     .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers("/client/**").hasAnyRole("admin")
-                    .requestMatchers("/product/**").hasAnyRole("inventory")
-                    .requestMatchers("/detail/**", "/invoice/**").hasAnyRole( "sales")
+                    .requestMatchers("/product/**").hasAnyRole("inventory","admin")
+                    .requestMatchers(HttpMethod.GET,"/detail/**", "/invoice/**").hasAnyRole( "sales","admin")
                     .requestMatchers("/**").hasAnyRole("admin")
                     .anyRequest().denyAll()
             }
