@@ -7,14 +7,11 @@ import com.UV_Shield.Factura_nativas.repository.InvoiceRepository
 import com.google.gson.Gson
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
 import java.io.File
-
-
 
 @SpringBootTest
 class InvoiceServiceTest {
@@ -35,17 +32,16 @@ class InvoiceServiceTest {
         id=1
         nui="0301707030"
         full_name="Juan"
-        address= "Cuenca"
+        address= "Ceunca"
     }
 
     @Test
-    fun saveInvoiceWhenIsCorrect(){
+    fun saveInvoiceWhenIsCorrect() {
         Mockito.`when`(clientRepository.findById(invoiceMock.client_Id)).thenReturn(clientMock)
         Mockito.`when`(invoiceRepository.save(Mockito.any(Invoice::class.java))).thenReturn(invoiceMock)
         val response = invoiceService.save(invoiceMock)
         Assertions.assertEquals(response.id, invoiceMock.id)
     }
-
 
 
 }

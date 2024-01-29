@@ -23,7 +23,7 @@ class ClientServiceTest {
         id=1
         nui="0301707030"
         full_name="Juan"
-        address= "Cuenca"
+        address= "Ceunca"
     }
 
     @Test
@@ -44,8 +44,6 @@ class ClientServiceTest {
         }
 
     }
-
-
 }
 
 
