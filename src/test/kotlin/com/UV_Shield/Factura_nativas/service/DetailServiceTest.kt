@@ -1,19 +1,19 @@
 package com.UV_Shield.Factura_nativas.service
 
+import com.UV_Shield.Factura_nativas.model.Client
 import com.UV_Shield.Factura_nativas.model.Detail
 import com.UV_Shield.Factura_nativas.repository.DetailRepository
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.jupiter.api.Test
+import com.UV_Shield.Factura_nativas.repository.ProductRepository
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.io.File
 
-@ExtendWith(SpringExtension::class)
 @SpringBootTest
 class DetailServiceTest {
 
@@ -23,29 +23,42 @@ class DetailServiceTest {
     @Mock
     lateinit var detailRepository: DetailRepository
 
-    private val objectMapper = ObjectMapper()
+    @Mock
+    lateinit var productRepository: ProductRepository
 
-    @Test
-    fun saveDetailWithObject() {
-        val newDetail = Detail().apply {
-            id = 1
-            quantity = 5
-            price = 200
-            invoice_Id = 1
-            product_Id = 2
-        }
-
-        Mockito.`when`(detailRepository.save(Mockito.any(Detail::class.java))).thenReturn(newDetail)
-        val savedDetail = detailService.save(newDetail)
-        Assertions.assertEquals(newDetail, savedDetail)
+    val detailMock = Detail().apply {
+        id = 1
+        quantity = 5
+        price = 100
+        invoice_Id = 1
+        product_Id = 2
     }
 
     @Test
-    fun saveDetailWithJsonFile() {
-        val jsonString = File("./src/test/resources/detail.json").readText(Charsets.UTF_8)
-        val newDetail = objectMapper.readValue(jsonString, Detail::class.java)
-        Mockito.`when`(detailRepository.save(Mockito.any(Detail::class.java))).thenReturn(newDetail)
-        val savedDetail = detailService.save(newDetail)
-        Assertions.assertEquals(newDetail, savedDetail)
+    fun saveDetailCorrect() {
+        Mockito.`when`(detailRepository.save(Mockito.any(Detail::class.java))).thenReturn(detailMock)
+        val response = detailService.save(detailMock)
+        Assertions.assertEquals(response.id, detailMock.id)
+    }
+
+
+
+    @Test
+    fun listDetails() {
+        val jsonString = File("./src/test/resources/detail.json").readText()
+        val details = parseJsonToDetailList(jsonString)
+
+        Mockito.`when`(detailRepository.findAll()).thenReturn(details)
+
+        val resultList = detailService.list()
+
+        Assertions.assertEquals(details.size, resultList.size)
+        Assertions.assertTrue(resultList.containsAll(details))
+    }
+
+    fun parseJsonToDetailList(jsonString: String): List<Detail> {
+        val gson = Gson()
+        val detailType = object : TypeToken<List<Detail>>() {}.type
+        return gson.fromJson(jsonString, detailType)
     }
 }

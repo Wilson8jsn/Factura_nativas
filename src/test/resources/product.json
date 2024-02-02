@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "description": "Laptop",
+    "brand": "Example Brand",
+    "price": 999.99,
+    "stok": 50
+  },
+  {
+    "id": 2,
+    "description": "Smartphone",
+    "brand": "Another Brand",
+    "price": 499.99,
+    "stok": 100
+  },
+  {
+    "id": 3,
+    "description": "Headphones",
+    "brand": "Audio Tech",
+    "price": 129.99,
+    "stok": 30
+  }
+]

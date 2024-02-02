@@ -1,17 +1,16 @@
 package com.UV_Shield.Factura_nativas.service
 
-import com.UV_Shield.Factura_nativas.model.Client
 import com.UV_Shield.Factura_nativas.model.Product
 import com.UV_Shield.Factura_nativas.repository.ProductRepository
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
-
+import java.io.File
 
 @SpringBootTest
 class ProductServiceTest {
@@ -22,19 +21,36 @@ class ProductServiceTest {
     @Mock
     lateinit var productRepository: ProductRepository
 
-    @Test
-    fun saveProduct() {
-        val productMock = Product().apply {
-            id = 1
-            description = "Marca stock"
-            brand = "Marca"
-            price = 100.0
-            stok = 50
-        }
+    val productMock = Product().apply {
+        id = 1L
+        description = "Example Product"
+        brand = "Example Brand"
+        price = 29.99
+        stok = 100
+    }
 
-        Mockito.`when`(productRepository.existsById(productMock.id!!)).thenReturn(false)
+    @Test
+    fun saveProductCorrect() {
         Mockito.`when`(productRepository.save(Mockito.any(Product::class.java))).thenReturn(productMock)
-        val savedProduct = productService.save(productMock)
-        Assertions.assertEquals(productMock, savedProduct)
+        val response = productService.save(productMock)
+        Assertions.assertEquals(response.id, productMock.id)
+    }
+
+
+
+    @Test
+    fun listProducts() {
+        val jsonString = File("./src/test/resources/product.json").readText()
+        val products = parseJsonToProductList(jsonString)
+        Mockito.`when`(productRepository.findAll()).thenReturn(products)
+        val resultList = productService.list()
+        Assertions.assertEquals(products.size, resultList.size)
+        Assertions.assertTrue(resultList.containsAll(products))
+    }
+
+    fun parseJsonToProductList(jsonString: String): List<Product> {
+        val gson = Gson()
+        val productType = object : TypeToken<List<Product>>() {}.type
+        return gson.fromJson(jsonString, productType)
     }
 }

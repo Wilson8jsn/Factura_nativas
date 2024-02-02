@@ -12,6 +12,8 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
 import java.io.File
+import java.util.*
+
 
 @SpringBootTest
 class InvoiceServiceTest {
@@ -43,6 +45,17 @@ class InvoiceServiceTest {
         Assertions.assertEquals(response.id, invoiceMock.id)
     }
 
+    @Test
+    fun listInvoices() {
+        val jsonStringList = File("./src/test/resources/invoice_list.json").readText(Charsets.UTF_8)
+        val invoices = Gson().fromJson(jsonStringList, Array<Invoice>::class.java).toList()
 
+        Mockito.`when`(invoiceRepository.findAll()).thenReturn(invoices)
+
+        val resultList = invoiceService.list()
+
+        Assertions.assertEquals(invoices.size, resultList.size)
+        Assertions.assertTrue(resultList.containsAll(invoices))
+    }
 }
 
