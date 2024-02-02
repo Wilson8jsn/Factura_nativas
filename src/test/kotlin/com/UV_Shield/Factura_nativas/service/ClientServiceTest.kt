@@ -21,6 +21,9 @@ class ClientServiceTest {
     @Mock
     lateinit var clientRepository: ClientRepository
 
+    val jsonString = File("./src/test/resources/client.json").readText()
+    val clients = parseJsonToClientList(jsonString)
+
     val clientMock = Client().apply {
         id = 1
         nui = "0301707030"
@@ -47,8 +50,7 @@ class ClientServiceTest {
 
     @Test
     fun listClients() {
-        val jsonString = File("./src/test/resources/client.json").readText()
-        val clients = parseJsonToClientList(jsonString)
+
 
         Mockito.`when`(clientRepository.findAll()).thenReturn(clients)
 

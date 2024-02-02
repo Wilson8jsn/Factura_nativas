@@ -1,5 +1,6 @@
 package com.UV_Shield.Factura_nativas.service
 
+
 import com.UV_Shield.Factura_nativas.model.Client
 import com.UV_Shield.Factura_nativas.model.Invoice
 import com.UV_Shield.Factura_nativas.repository.ClientRepository
@@ -13,7 +14,6 @@ import org.mockito.Mockito
 import org.springframework.boot.test.context.SpringBootTest
 import java.io.File
 import java.util.*
-
 
 @SpringBootTest
 class InvoiceServiceTest {
@@ -29,12 +29,14 @@ class InvoiceServiceTest {
 
     val jsonString = File("./src/test/resources/invoice.json").readText(Charsets.UTF_8)
     val invoiceMock = Gson().fromJson(jsonString, Invoice::class.java)
+    val jsonStringList = File("./src/test/resources/invoice_list.json").readText(Charsets.UTF_8)
+    val invoices = Gson().fromJson(jsonStringList, Array<Invoice>::class.java).toList()
 
     val clientMock = Client().apply {
-        id=1
-        nui="0301707030"
-        full_name="Juan"
-        address= "Ceunca"
+        id = 1
+        nui = "0301707030"
+        full_name = "Juan"
+        address = "Ceunca"
     }
 
     @Test
@@ -47,15 +49,9 @@ class InvoiceServiceTest {
 
     @Test
     fun listInvoices() {
-        val jsonStringList = File("./src/test/resources/invoice_list.json").readText(Charsets.UTF_8)
-        val invoices = Gson().fromJson(jsonStringList, Array<Invoice>::class.java).toList()
-
         Mockito.`when`(invoiceRepository.findAll()).thenReturn(invoices)
-
         val resultList = invoiceService.list()
-
         Assertions.assertEquals(invoices.size, resultList.size)
         Assertions.assertTrue(resultList.containsAll(invoices))
     }
 }
-

@@ -26,6 +26,9 @@ class DetailServiceTest {
     @Mock
     lateinit var productRepository: ProductRepository
 
+    val jsonString = File("./src/test/resources/detail.json").readText()
+    val details = parseJsonToDetailList(jsonString)
+
     val detailMock = Detail().apply {
         id = 1
         quantity = 5
@@ -45,8 +48,6 @@ class DetailServiceTest {
 
     @Test
     fun listDetails() {
-        val jsonString = File("./src/test/resources/detail.json").readText()
-        val details = parseJsonToDetailList(jsonString)
 
         Mockito.`when`(detailRepository.findAll()).thenReturn(details)
 

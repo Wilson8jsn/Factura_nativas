@@ -21,6 +21,9 @@ class ProductServiceTest {
     @Mock
     lateinit var productRepository: ProductRepository
 
+    val jsonString = File("./src/test/resources/product.json").readText()
+    val products = parseJsonToProductList(jsonString)
+
     val productMock = Product().apply {
         id = 1L
         description = "Example Product"
@@ -40,8 +43,7 @@ class ProductServiceTest {
 
     @Test
     fun listProducts() {
-        val jsonString = File("./src/test/resources/product.json").readText()
-        val products = parseJsonToProductList(jsonString)
+
         Mockito.`when`(productRepository.findAll()).thenReturn(products)
         val resultList = productService.list()
         Assertions.assertEquals(products.size, resultList.size)
