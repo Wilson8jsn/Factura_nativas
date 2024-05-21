@@ -1,7 +1,4 @@
-cloudinary:
-  cloud-name: piensa
-  api-key: 697157638332511
-  api-secret: fQhHramPoTeRhHpomyaz71lPipo
+
 server:
   port: 8081
   error:
@@ -20,8 +17,8 @@ spring:
     schemas: public
 
   datasource:
-    url: jdbc:postgresql://heffalump.db.elephantsql.com:5432/tehptrvr?socketTimeout=3
-    username: tehptrvr
-    password: uMk0a0nXPBI0GXG4a2mfAhDfZxm16_t5
+    url: jdbc:postgresql://DB-Practica:5432/prueba?socketTimeout=3
+    username: admin
+    password: admin
     driverClassName: org.postgresql.Driver
 

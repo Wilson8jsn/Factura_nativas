@@ -6,14 +6,10 @@ import com.UV_Shield.Factura_nativas.model.Detail
 import com.UV_Shield.Factura_nativas.repository.DetailRepository
 import com.UV_Shield.Factura_nativas.repository.InvoiceRepository
 import com.UV_Shield.Factura_nativas.repository.ProductRepository
-import com.UV_Shield.Factura_nativas.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import java.math.BigDecimal
-import kotlin.time.times
-import java.util.Optional
 
 
 @Service
@@ -24,8 +20,7 @@ class DetailService {
     lateinit var productRepository: ProductRepository
     @Autowired
     lateinit var detailRepository: DetailRepository
-    @Autowired
-    lateinit var UserRepository: UserRepository
+
 
 
     fun list ():List<Detail>{

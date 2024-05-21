@@ -2,8 +2,7 @@ package com.UV_Shield.Factura_nativas.service
 
 
 
-import com.UV_Shield.Factura_nativas.dto.ProductDto
-import com.UV_Shield.Factura_nativas.mapper.ProductMapper
+
 import com.UV_Shield.Factura_nativas.model.Product
 import com.UV_Shield.Factura_nativas.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -90,17 +89,7 @@ class ProductService {
     } */
 
 
-    fun listDto(): List<ProductDto> {
-        val productList = productRepository.findAll()
-        val productDtoList = mutableListOf<ProductDto>()
-        productList.map { product ->
-            val productDto = ProductMapper.mapToDto(product)
-            productDtoList.add(productDto)
 
-        }
-        return productDtoList
-
-    }
 
 
 }
